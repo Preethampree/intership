@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { User } from './user.entity';
+import { Otp } from './otp.entity';
 
 @Entity()
 export class Patient {
@@ -7,12 +8,27 @@ export class Patient {
   id: number;
 
   @Column()
-  age: number;
+  name: string;
+
+  @Column({ unique: true })
+  email: string;
+
+  @Column({ unique: true })
+  phone: string;
 
   @Column()
-  medicalHistory: string;
+  password: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @OneToOne(() => User, user => user.patient)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @OneToMany(() => Otp, otp => otp.patient)
+  otps: Otp[];
 }
