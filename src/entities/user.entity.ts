@@ -13,11 +13,14 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   password: string;
 
   @Column({ type: 'enum', enum: ['doctor', 'patient'] })
   role: 'doctor' | 'patient';
+
+  @Column({ default: 'google' })
+  provider: string;
 
   @OneToOne(() => Doctor, doctor => doctor.user)
   doctor: Doctor;
